@@ -1,0 +1,714 @@
+########## RNA-seq pipeline start ##########
+
+# Fastqc
+
+#!/bin/bash
+#
+set -eu
+pwd
+date +"%d-%b-%y %T"
+
+
+A1="JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L1_R1.fastq.bz2"
+A2="JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L1_R2.fastq.bz2"
+A3="JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L2_R1.fastq.bz2"
+A4="JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L2_R2.fastq.bz2"
+A5="JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L1_R1.fastq.bz2"
+A6="JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L1_R2.fastq.bz2"
+A7="JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L2_R1.fastq.bz2"
+A8="JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L2_R2.fastq.bz2"
+A9="JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L1_R1.fastq.bz2"
+A10="JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L1_R2.fastq.bz2"
+A11="JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L2_R1.fastq.bz2"
+A12="JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L2_R2.fastq.bz2"
+A13="JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L1_R1.fastq.bz2"
+A14="JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L1_R2.fastq.bz2"
+A15="JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L2_R1.fastq.bz2"
+A16="JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L2_R2.fastq.bz2"
+A17="JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L1_R1.fastq.bz2"
+A18="JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L1_R2.fastq.bz2"
+A19="JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L2_R1.fastq.bz2"
+A20="JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L2_R2.fastq.bz2"
+A21="JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L1_R1.fastq.bz2"
+A22="JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L1_R2.fastq.bz2"
+A23="JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L2_R1.fastq.bz2"
+A24="JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L2_R2.fastq.bz2"
+A25="JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L1_R1.fastq.bz2"
+A26="JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L1_R2.fastq.bz2"
+A27="JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L2_R1.fastq.bz2"
+A28="JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L2_R2.fastq.bz2"
+A29="JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L1_R1.fastq.bz2"
+A30="JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L1_R2.fastq.bz2"
+A31="JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L2_R1.fastq.bz2"
+A32="JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L2_R2.fastq.bz2"
+A33="JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L1_R1.fastq.bz2"
+A34="JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L1_R2.fastq.bz2"
+A35="JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L2_R1.fastq.bz2"
+A36="JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L2_R2.fastq.bz2"
+A37="JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L1_R1.fastq.bz2"
+A38="JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L1_R2.fastq.bz2"
+A39="JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L2_R1.fastq.bz2"
+A40="JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L2_R2.fastq.bz2"
+A41="JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L1_R1.fastq.bz2"
+A42="JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L1_R2.fastq.bz2"
+A43="JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L2_R1.fastq.bz2"
+A44="JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L2_R2.fastq.bz2"
+A45="JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L1_R1.fastq.bz2"
+A46="JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L1_R2.fastq.bz2"
+A47="JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L2_R1.fastq.bz2"
+A48="JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L2_R2.fastq.bz2"
+A49="JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L1_R1.fastq.bz2"
+A50="JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L1_R2.fastq.bz2"
+A51="JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L2_R1.fastq.bz2"
+A52="JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L2_R2.fastq.bz2"
+A53="JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L1_R1.fastq.bz2"
+A54="JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L1_R2.fastq.bz2"
+A55="JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L2_R1.fastq.bz2"
+A56="JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L2_R2.fastq.bz2"
+A57="JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L1_R1.fastq.bz2"
+A58="JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L1_R2.fastq.bz2"
+A59="JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L2_R1.fastq.bz2"
+A60="JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L2_R2.fastq.bz2"
+A61="JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L1_R1.fastq.bz2"
+A62="JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L1_R2.fastq.bz2"
+A63="JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L2_R1.fastq.bz2"
+A64="JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L2_R2.fastq.bz2"
+A65="JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L1_R1.fastq.bz2"
+A66="JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L1_R2.fastq.bz2"
+A67="JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L2_R1.fastq.bz2"
+A68="JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L2_R2.fastq.bz2"
+A69="JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L1_R1.fastq.bz2"
+A70="JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L1_R2.fastq.bz2"
+A71="JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L2_R1.fastq.bz2"
+A72="JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L2_R2.fastq.bz2"
+A73="JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L1_R1.fastq.bz2"
+A74="JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L1_R2.fastq.bz2"
+A75="JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L2_R1.fastq.bz2"
+A76="JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L2_R2.fastq.bz2"
+A77="JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L1_R1.fastq.bz2"
+A78="JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L1_R2.fastq.bz2"
+A79="JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L2_R1.fastq.bz2"
+A80="JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L2_R2.fastq.bz2"
+A81="Lane_1_Undetermined_I1003_L1_R1.fastq.bz2"
+A82="Lane_1_Undetermined_I1003_L1_R2.fastq.bz2"
+A83="Lane_2_Undetermined_I1003_L2_R1.fastq.bz2"
+A84="Lane_2_Undetermined_I1003_L2_R2.fastq.bz2"
+
+for I in {1..84}
+do
+	BZ2="A$I"
+	echo "Unzipping:"${!BZ2}
+	FASTQ=${!BZ2%.bz2}
+	echo "to:"${FASTQ}
+	bunzip2 -k -c RNA_061820/${!BZ2} > ${FASTQ}
+	echo "Fastqc on:"${FASTQ}
+	fastqc -t 30 -o RNA_fastqc -f fastq ${FASTQ}
+	echo "Done:"${FASTQ}
+	rm ${FASTQ}
+done
+
+
+
+echo "Done running:"$0
+echo "Proceed to next script"
+date +"%d-%b-%y %T"
+exit
+
+# Trimmomatic
+
+#!/bin/bash
+#SBATCH --job-name=runtrim
+#SBATCH --output=%j.runtrim.out	 
+#SBATCH --error=%j.runtrim.err 
+#SBATCH --partition=largemem
+#SBATCH --time=2-00:00:00
+#SBATCH --mem=200000
+#SBATCH --cpus-per-task=32
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=User@rothamsted.ac.uk
+echo -n "Submitting batchscript to host: "
+hostname
+date +"%d-%b-%y %T"
+###########################
+
+##: <<'SKIP'
+##SKIP
+
+A1="JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L1"
+A2="JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L2"
+A3="JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L1"
+A4="JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L2"
+A5="JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L1"
+A6="JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L2"
+A7="JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L1"
+A8="JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L2"
+A9="JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L1"
+A10="JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L2"
+A11="JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L1"
+A12="JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L2"
+A13="JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L1"
+A14="JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L2"
+A15="JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L1"
+A16="JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L2"
+A17="JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L1"
+A18="JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L2"
+A19="JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L1"
+A20="JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L2"
+A21="JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L1"
+A22="JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L2"
+A23="JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L1"
+A24="JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L2"
+A25="JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L1"
+A26="JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L2"
+A27="JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L1"
+A28="JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L2"
+A29="JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L1"
+A30="JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L2"
+A31="JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L1"
+A32="JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L2"
+A33="JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L1"
+A34="JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L2"
+A35="JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L1"
+A36="JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L2"
+A37="JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L1"
+A38="JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L2"
+A39="JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L1"
+A40="JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L2"
+A41="Lane_1_Undetermined_I1003_L1"
+A42="Lane_2_Undetermined_I1003_L2"
+
+for I in {32..42} ##{21..31} ##{11..20}  ##{2..10}
+do
+	LABEL="A$I"
+	echo "Processing:"${!LABEL}
+	./runtrim_.sh ${!LABEL}
+	echo "exit code: "$?
+	echo "Done:"${!LABEL}
+
+done
+
+echo "Done submit"
+date +"%d-%b-%y %T"
+
+# featureCounts
+
+#!/bin/bash
+#SBATCH --job-name=fCount
+#SBATCH --output=%j.fCount.out
+#SBATCH --error=%j.fCount.err
+#SBATCH --partition=largemem
+#SBATCH --time=0-05:00:00
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=100G
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=User@rothamsted.ac.uk
+######	my commands here
+set -eu
+hostname
+date +"%d-%b-%y %T"
+
+##	https://urldefense.com/v3/__http://bioinf.wehi.edu.au/subread-package/SubreadUsersGuide.pdf__;!!PTd7Sdtyuw!WXyhNxxKow1gCiaHuA9GQLhgI9QSmS0Tm2ROgIffunjcVPmHsl3dsXcyrKunxXEo-4uC4BiOG2k5l0hh_RaKU-uHLSRVnzNM$  
+##	https://urldefense.com/v3/__http://bioinf.wehi.edu.au/featureCounts/__;!!PTd7Sdtyuw!WXyhNxxKow1gCiaHuA9GQLhgI9QSmS0Tm2ROgIffunjcVPmHsl3dsXcyrKunxXEo-4uC4BiOG2k5l0hh_RaKU-uHLVZjcUiP$  
+
+THREADS=8
+PROG="/subread-1.6.4-Linux-x86_64/bin/featureCounts"
+DIR="/downloads/"
+GTF="/Alomy_v1.gtf"
+
+##: <<'SKIP'
+##SKIP
+
+
+NAMES=(
+	JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L1
+	JACS_RNAseq_NA_NA_CGGAACTG_Blackgrass_S-A_I1003_L2
+	JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L1
+	JACT_RNAseq_NA_NA_TAAGGTCA_Blackgrass_S-B_I1003_L2
+	JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L1
+	JACU_RNAseq_NA_NA_TTGCCTAG_Blackgrass_S-C_I1003_L2
+	JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L1
+	JACW_RNAseq_NA_NA_CCATTCGA_Blackgrass_S-D_I1003_L2
+	JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L1
+	JACX_RNAseq_NA_NA_ACACTAAG_Blackgrass_S-E_I1003_L2
+	JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L1
+	JACY_RNAseq_NA_NA_GTGTCGGA_Blackgrass_R-A_I1003_L2
+	JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L1
+	JACZ_RNAseq_NA_NA_TTCCTGTT_Blackgrass_R-B_I1003_L2
+	JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L1
+	JADA_RNAseq_NA_NA_CCTTCACC_Blackgrass_R-C_I1003_L2
+	JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L1
+	JADB_RNAseq_NA_NA_GCCACAGG_Blackgrass_R-D_I1003_L2
+	JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L1
+	JADC_RNAseq_NA_NA_ATTGTGAA_Blackgrass_R-E_I1003_L2
+	JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L1
+	JADD_RNAseq_NA_NA_ACTCGTGT_Blackgrass_L-A_I1003_L2
+	JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L1
+	JADE_RNAseq_NA_NA_GTCTACAC_Blackgrass_L-B_I1003_L2
+	JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L1
+	JADF_RNAseq_NA_NA_CAATTAAC_Blackgrass_L-C_I1003_L2
+	JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L1
+	JADG_RNAseq_NA_NA_TGGCCGGT_Blackgrass_L-D_I1003_L2
+	JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L1
+	JADH_RNAseq_NA_NA_AGTACTCC_Blackgrass_L-E_I1003_L2
+	JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L1
+	JADI_RNAseq_NA_NA_GACGTCTT_Blackgrass_H-A_I1003_L2
+	JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L1
+	JADJ_RNAseq_NA_NA_TGCGAGAC_Blackgrass_H-B_I1003_L2
+	JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L1
+	JADK_RNAseq_NA_NA_CATAGAGT_Blackgrass_H-C_I1003_L2
+	JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L1
+	JADL_RNAseq_NA_NA_ACAGGCGC_Blackgrass_H-D_I1003_L2
+	JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L1
+	JADM_RNAseq_NA_NA_GTGAATAT_Blackgrass_H-E_I1003_L2
+)
+
+UNDETERMINED=(
+	Lane_1_Undetermined_I1003_L1
+	Lane_2_Undetermined_I1003_L2
+)
+
+
+for I in 19    ###{0..39}
+do
+	ITEM=${NAMES[I]}
+	LABEL=${ITEM:38:1}${ITEM:40:1}${ITEM:49:1}
+	echo "Processing:"$I ${LABEL}
+	BAM=${DIR}bams/${LABEL}_hisat.sorted.bam
+	if [ ! -f $BAM ]
+	then
+		echo ${BAM}" not found"
+		exit 1
+	fi
+	##	-p to count "fragments"
+	$PROG  -T $THREADS -p -a $GTF -o ${DIR}counts/${LABEL} $BAM
+	cut -f1,7 ${DIR}counts/${LABEL} | \
+		sed 's|/downloads/bams/||g' | \
+		sed 's|_hisat.sorted.bam||g' > ${DIR}counts/${LABEL}.cnt
+done
+
+echo "Done it."
+date +"%d-%b-%y %T"
+exit
+
+# Differential expression analysis
+
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------- DESeq analysis  ----------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+
+# Using DESeq2 for comparison of R and S
+
+##########################################################################
+## NEEDED ON FIRST RUN TO INSTALL DESEQ2
+##########################################################################
+
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#   install.packages("BiocManager")
+# 
+# BiocManager::install("DESeq2")
+# BiocManager::install("IHW")
+# BiocManager::install("apeglm")
+
+
+##########################################################################
+## Load package and data
+##########################################################################
+
+library(DESeq2)         # For the differential expression analysis
+library(IHW)            # For independent hypothesis weighting P-value adjustment
+library(pheatmap)       # For sample distance analysis
+library(RColorBrewer)   # For sample distance analysis
+library(stringr)        # For setting up the metadata
+library(apeglm)         # For running LFC shrinkage of Log2 fold changes in MA plots
+library(ggplot2)        # For plotting things
+library(genefilter)     # For heatmaps if required
+library(ggrepel)        # For labelling e.g. PCAs if needed
+library(ashr)           # For MA plots
+library(VennDiagram)    # For Venn diagrams
+
+## Analysis working directory
+setwd("/DESeq2_analysis")
+
+## Load the merged counts matrix
+Counts = read.csv(file = "/DESeq2_analysis/MergedCounts.csv", sep = ",", header = T, row.names=1, stringsAsFactors = F)
+head(Counts)
+
+## Load the metadata
+PhenotypeData <- read.csv(file = "/DESeq2_analysis/Metadata.csv", sep = ",", header = T, row.names=1, stringsAsFactors = T)
+head(PhenotypeData)
+
+## Re-level the phenotype column so that Susceptible is the reference level
+PhenotypeData$Phenotype <- relevel(PhenotypeData$Phenotype,ref="Susceptible")
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- Run the DESeq model -----------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+## Specifying a single "group" variable which incorporates both family and phenotype
+## Create a DESeq dataset of the data and desired comparison
+dds <- DESeqDataSetFromMatrix(countData=Counts, colData=PhenotypeData, design=~Group)
+
+## Use the collapse function to sum up read counts from technical replicates
+ddsColl <- collapseReplicates(dds, dds$Label)
+
+## Filtering out low counts
+ddsColl = ddsColl[!rowSums(fpm(ddsColl) > 1 ) < 4]
+
+## Log transform the results
+rldColl <- rlog(ddsColl, blind=FALSE)
+
+## Double check the PCA of the relationship between samples
+plotPCA(rldColl, intgroup=c("Family", "Phenotype"))
+
+## Run DESeq on the collapsed tech-rep data
+dds <- DESeq(ddsColl)
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------- MA plots -------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+## Extract R vs. S comparisons within family
+CC2 = results(dds, contrast=c("Group", "CC2_Resistant", "CC2_Susceptible"))
+CC5 = results(dds, contrast=c("Group", "CC5_Resistant", "CC5_Susceptible"))
+
+## Apply shrinkage
+CC2.Shrink <- lfcShrink(dds, contrast=c("Group", "CC2_Resistant", "CC2_Susceptible"), res=CC2, type="ashr")
+CC5.Shrink <- lfcShrink(dds, contrast=c("Group", "CC5_Resistant", "CC5_Susceptible"), res=CC5, type="ashr")
+
+
+## Print the plot: No shrinkage
+pdf(file = "MA plots.pdf", width = 10, height = 6)
+par(mfrow = c(1, 2))
+plotMA(CC2, alpha=0.05, ylim=c(-10,10), main = "Family CC2")
+plotMA(CC5, alpha=0.05, ylim=c(-10,10), main = "Family CC5")
+par(mfrow = c(1, 1))
+dev.off()
+
+
+## Print the plot: with shrinkage
+pdf(file = "MA plots with shrinkage.pdf", width = 10, height = 6)
+par(mfrow = c(1, 2))
+plotMA(CC2.Shrink, alpha=0.05, ylim=c(-4,4), main = "Family CC2, shrinkage 'ashr'")
+plotMA(CC5.Shrink, alpha=0.05, ylim=c(-4,4), main = "Family CC5, shrinkage 'ashr'")
+par(mfrow = c(1, 1))
+dev.off()
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#----------------- Compare number of genes Up/Down regulated for each family ---------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+## Extract results
+CC2 = results(dds, contrast=c("Group", "CC2_Resistant", "CC2_Susceptible"), alpha = 0.1)
+CC5 = results(dds, contrast=c("Group", "CC5_Resistant", "CC5_Susceptible"), alpha = 0.1)
+
+## Set up a list of P-values to compare, and somewhere to store the results
+alphaList = c(0.05, 0.01, 0.001, 0.0001, 0.00001, 0.000001)
+df = data.frame(matrix(ncol=4,nrow=0, dimnames=list(NULL, c("Family", "Padj", "Direction", "Number"))))
+
+## Extract the data
+for (i in 1:length(alphaList)){
+  alpha = alphaList[[i]]
+  
+  CC2.sig = subset(CC2, padj < alpha)
+  CC2.sig.Up = subset(CC2.sig, log2FoldChange > 0)
+  CC2.sig.Down = subset(CC2.sig, log2FoldChange < 0)
+  df = rbind(df, c("CC2", paste0("Padj<",format(alpha, scientific = FALSE)), "Up", length(CC2.sig.Up$baseMean)))
+  df = rbind(df, c("CC2", paste0("Padj<",format(alpha, scientific = FALSE)), "Down", length(CC2.sig.Down$baseMean)))
+  
+  CC5.sig = subset(CC5, padj < alpha)
+  CC5.sig.Up = subset(CC5.sig, log2FoldChange > 0)
+  CC5.sig.Down = subset(CC5.sig, log2FoldChange < 0)
+  df = rbind(df, c("CC5", paste0("Padj<",format(alpha, scientific = FALSE)), "Up", length(CC5.sig.Up$baseMean)))
+  df = rbind(df, c("CC5", paste0("Padj<",format(alpha, scientific = FALSE)), "Down", length(CC5.sig.Down$baseMean)))
+  
+}
+
+## Clean up the data frame
+names(df) <- c("Family", "Padj", "Direction", "Number")
+df$Number = as.numeric(df$Number)
+df$Direction = factor(df$Direction, levels = c("Up", "Down"))
+df$Padj = factor(df$Padj, levels = c("Padj<0.05", "Padj<0.01", "Padj<0.001", "Padj<0.0001", "Padj<0.00001", "Padj<0.000001"))
+
+## Subset by family 
+a = subset(df, Family %in% c("CC2"))
+b = subset(df, Family %in% c("CC5"))
+
+a = ggplot(a, aes(x=Direction, y=Number, fill=Direction)) +
+  facet_grid(cols=vars(Padj), scales = "fixed") +
+  geom_bar(stat="identity", colour="black")+
+  geom_text(aes(label=Number), position=position_dodge(width=0.9), vjust=-0.25) +
+  scale_fill_hue(direction = 1, h.start=90) +
+  labs(y = "Number of differentially expressed genes", title = "Family = CC2") +
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.title.x = element_blank(), axis.text.x = element_blank(),axis.ticks.x=element_blank())
+
+b = ggplot(b, aes(x=Direction, y=Number, fill=Direction)) +
+  facet_grid(cols=vars(Padj), scales = "fixed") +
+  geom_bar(stat="identity", colour="black")+
+  geom_text(aes(label=Number), position=position_dodge(width=0.9), vjust=-0.25) +
+  scale_fill_hue(direction = 1, h.start=90) +
+  labs(y = "Number of differentially expressed genes", title = "Family = CC5") +
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.title.x = element_blank(), axis.text.x = element_blank(),axis.ticks.x=element_blank())
+
+
+## Print the plots
+pdf(file = "CC2 significant gene numbers.pdf", width = 10, height = 6)
+plot(a)
+dev.off()
+
+## Print the plots
+pdf(file = "CC5 significant gene numbers.pdf", width = 10, height = 6)
+plot(b)
+dev.off()
+
+
+rm('a','b', 'CC2', 'CC5', 'CC2.sig', 'CC2.sig.Up', 'CC2.sig.Down', 'CC5.sig', 'CC5.sig.Up', 'CC5.sig.Down', 'alpha', 'alphaList', 'i')
+
+
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#--------------------------------------- Venn diagram of DEGs consistent between families -----------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+
+## Extract R vs. S comparison within CC2
+CC2 = results(dds, contrast=c("Group", "CC2_Resistant", "CC2_Susceptible"))
+CC2.ordered <- CC2[order(CC2$padj),]
+CC2.ordered ; summary(CC2.ordered)
+
+## Extract R vs. S comparison within CC5
+CC5 = results(dds, contrast=c("Group", "CC5_Resistant", "CC5_Susceptible"))
+CC5.ordered <- CC5[order(CC5$padj),]
+CC5.ordered ; summary(CC5.ordered)
+
+## Specify a P-value to use as a threshold
+padj.cutoff <- 0.05
+
+## Specify a fold change to use as a threshold
+lfc.cutoff <- 0.58
+
+## Use these cutoffs
+CC2.genes = subset(CC2.ordered, padj < padj.cutoff & abs(log2FoldChange) > lfc.cutoff)
+CC5.genes = subset(CC5.ordered, padj < padj.cutoff & abs(log2FoldChange) > lfc.cutoff)
+
+## Extract just the gene IDs
+CC2.genes <- rownames(CC2.genes)
+CC5.genes <- rownames(CC5.genes)
+
+
+#####################################
+## Plot a Venn
+#####################################
+
+# Combining the two above..
+combined <- unique(c(CC2.genes,CC5.genes))
+
+# Calculate the intersection of the two sets
+deg.intersect = length(intersect(CC2.genes, CC5.genes))
+deg.venn <- list('intersect' = deg.intersect,
+                 'CC2' = length(CC2.genes),
+                 'CC5' = length(CC5.genes))
+
+## Create the venn diagram
+grid.newpage();
+venn.plot <- draw.pairwise.venn(deg.venn$CC2, deg.venn$CC5, deg.venn$intersect,
+                                category = c("CC2", "CC5"), scaled = F,
+                                fill = c("light blue", "pink"), alpha = rep(0.5, 2),
+                                cat.pos = c(0, 0))
+
+# Actually plot the venn
+grid.draw(venn.plot)
+
+
+## Print the venn diagram
+pdf(file = "Venn diagram DEGs.pdf", width = 7, height = 6)
+grid.draw(venn.plot)
+dev.off()
+
+
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------ Create lists of DEGs for each family --------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------------------------#
+
+## A function for subsetting by IDs which don't match
+'%notin%' <- function(x,y)!('%in%'(x,y))
+
+## Generate lists of the gene IDs
+Both.genes = intersect(CC2.genes, CC5.genes)
+CC2.only.genes = subset(CC2.genes, CC2.genes %notin% Both.genes)
+CC5.only.genes = subset(CC5.genes, CC5.genes %notin% Both.genes)
+
+Both = merge(as.data.frame(subset(CC2.ordered, rownames(CC2.ordered) %in% combined)),
+          as.data.frame(subset(CC5.ordered, rownames(CC5.ordered) %in% combined)),
+          by = "row.names",
+          suffixes = c(".CC2",".CC5"))
+
+# Rename the first column
+colnames(Both)[1]  <- "geneID"
+
+# Create a column describing which family the significant difference is in
+Both$Signif.In <- ifelse(Both$geneID %in% Both.genes, "Both", 
+                     ifelse(Both$geneID %in% CC2.only.genes, "CC2",
+                            ifelse(Both$geneID %in% CC5.only.genes, "CC5", NA)))
+
+
+## Create a column for the direction of log fold change
+Both$Direction = ifelse(Both$Signif.In == "Both" & Both$log2FoldChange.CC2 > 0 & Both$log2FoldChange.CC5 > 0, "Up Both",
+                        ifelse(Both$Signif.In == "Both" & Both$log2FoldChange.CC2 < 0 & Both$log2FoldChange.CC5 < 0, "Down Both",
+                               ifelse(Both$Signif.In == "Both" & Both$log2FoldChange.CC2 > 0 & Both$log2FoldChange.CC5 < 0, "Up CC2, Down CC5",
+                                      ifelse(Both$Signif.In == "Both" & Both$log2FoldChange.CC2 < 0 & Both$log2FoldChange.CC5 > 0, "Down CC2, Up CC5",
+                                             ifelse(Both$Signif.In == "CC2" & Both$log2FoldChange.CC2 < 0, "Down CC2",
+                                                    ifelse(Both$Signif.In == "CC2" & Both$log2FoldChange.CC2 > 0, "Up CC2",
+                                                           ifelse(Both$Signif.In == "CC5" & Both$log2FoldChange.CC5 < 0, "Down CC5",
+                                                                  ifelse(Both$Signif.In == "CC5" & Both$log2FoldChange.CC5 > 0, "Up CC5",NA))))))))
+
+
+## Create a dataframe of just the consistent genes
+Consistent = subset(Both, Signif.In %in% c("Both"))
+
+
+#########################
+## Save the data sets
+#########################
+
+## export results 
+write.csv(Both, file="/DESeq2_analysis/Signif Gene List.CSV", row.names = F)
+write.csv(Consistent, file="/DESeq2_analysis/consistent DEGs.CSV", row.names = F)
+
+
+########## RNA-seq pipeline end ##########
+
+
+
+
+
+########## QTL-seq pipeline start ##########
+
+# This is raw sequence data
+input1=IZQC_PCRfree_1_1_CCGCGGTT_Blackgrass_P1R_I1000_L4_R1.fastq.gz
+input2=IZQC_PCRfree_1_1_CCGCGGTT_Blackgrass_P1R_I1000_L4_R2.fastq.gz
+
+# Quality check
+fastqc -t 24 ${input1} -o ./ReadsQC
+fastqc -t 24 ${input2} -o ./ReadsQC
+
+# Raw reads quality control using trimmomatic
+java -jar /zfs/gcl/software/trimmomatic/0.36/trimmomatic-0.36.jar \
+PE -threads 16 -phred33 \
+${input1} \
+${input2} \
+${input1}.paired.fastq.gz \
+${input1}.unpaired.fastq.gz \
+${input2}.paired.fastq.gz \
+${input2}.unpaired.fastq.gz \
+ILLUMINACLIP:/trimmomatic/0.36/adapters/TruSeq3-PE-2.fa:2:30:10 \
+SLIDINGWINDOW:5:20 \
+LEADING:5 \
+TRAILING:5 \
+MINLEN:75
+
+# Align clean reads to the reference genome
+Reference=BGG.fasta
+input1=Clean_R1.fastq.gz
+input2=Clean_R2.fastq.gz
+
+bwa mem -t 40 -R '@RG\tID:L3_lane\tPL:illumina\tLB:library\tSM:blackgrass' \
+${Reference} \
+${input1}.paired.fastq.gz \
+${input2}.paired.fastq.gz \
+| samtools sort -@ 24 -b - > Bg.sorted.bam
+
+# Index and remove duplication
+samtools index -@ 24 Bg.sorted.bam
+samtools rmdup Bg.sorted.bam Bg.sorted.rmdup.bam
+
+# run the above commands to get bam files for other samples
+# Call SNPs
+bcftools mpileup -Ou -f ${Reference} -a AD,DP,ADF,ADR \
+-B -C 50 -Q 20 -q 30 Bg.sorted.rmdup.bam p1r.sorted.rmdup.bam p1s.sorted.rmdup.bam \
+| bcftools call -mv -f GQ,GP -Ov -o BG.vcf
+
+# SNP filtering
+bcftools filter -g 20 -G 20 -Ov -o filter1.vcf BG.vcf
+bcftools view -i 'TYPE="snp" & N_ALT=1 & STRLEN(ALT)=1' -Ov -o filter2.vcf filter1.vcf
+bcftools filter -i '(INFO/DP4[0]+INFO/DP4[1])>5 & (INFO/DP4[2]+INFO/DP4[3])>5' -Ov -o filter3.vcf filter2.vcf
+bcftools filter -i QUAL>100 -Ov -o filter4.vcf filter3.vcf
+bcftools filter -i INFO/MQ>=40 -Ov -o filter5.vcf filter4.vcf
+
+# Filtering using vcftools
+vcftools --vcf filter5.vcf \
+--recode-INFO-all \
+--max-alleles 2 \
+--min-alleles 2 \
+--minQ 40 \
+--minGQ 100 \
+--recode \
+--out Pop1
+
+# Prepare the SNP data for QTLseq pipeline
+bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%QUAL\t%INFO/MQ[\t%GT][\t%AD]\n' Pop1.vcf > genotype1.txt
+sed -e 's/,/\t/g' genotype1.txt > genotype2.txt
+grep -v  "\./\." genotype2.txt > genotype3.txt
+awk '{if($7=="0/0") print}' genotype3.txt > genotype4.txt
+awk '{if($11==0) print}' genotype4.txt > genotype5.txt
+awk '{if($10>=15 && $10<= 150) print}' genotype5.txt > genotype6.txt
+awk '{if(($12+$13)>=25 && ($12+$13)<=200) print}' genotype6.txt > genotype7.txt
+awk '{if(($14+$15)>=25 && ($14+$15)<=200) print}' genotype7.txt > genotype8.txt
+awk '{if ($8=="1/1" && $9=="1/1") next; else print}' genotype8.txt > genotype9.txt
+
+# QTLseq pipeline in R
+dat<-read.table("genotype9.txt",sep = "\t")
+df<-data.frame(CHROM = dat[,1],POS = dat[,2],REF = dat[,3],ALT = dat[,4],
+               AD_REF.susceptible = dat[,14], AD_ALT.susceptible = dat[,15],
+               AD_REF.resistance = dat[,12], AD_ALT.resistance = dat[,13]
+               )
+write.table(df, file = "pop1.tsv", sep = "\t", row.names = F, quote = F)
+
+# https://github.com/bmansfeld/QTLseqr
+library("QTLseqr") 
+Chroms <- paste0(rep("Chr", 7), 1:7)
+
+df <- importFromTable(
+        file = "pop1.tsv",
+        highBulk = "resistance",
+        lowBulk = "susceptible",
+        chromList = Chroms, sep = "\t"
+     )    
+     
+df <-   filterSNPs(
+        SNPset = df,
+        minTotalDepth = 30,
+        maxTotalDepth = 400,
+        depthDifference = 200,
+        minSampleDepth = 25
+        )
+
+df <- runQTLseqAnalysis(
+    SNPset = df,
+    windowSize = 2e6,
+    popStruc = "F2",
+    bulkSize = c(25, 25),
+    replications = 10000,
+    intervals = c(95,99), maxk=300
+)
+
+# Write the results to file
+RESULT_99 <- getQTLTable(SNPset=df, method = "QTLseq", interval = 99, export =  FALSE)
+write.table(RESULT_99, file = "RESULT_99.tsv", sep = "\t", row.names = F, quote = F)
+
+########## QTL-seq pipeline end ##########
